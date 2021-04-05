@@ -1,53 +1,20 @@
 {
-	"name": "CopyData",
+	"name": "SelfHostPipeline",
 	"properties": {
 		"activities": [
 			{
-				"name": "GetTablename",
-				"type": "Lookup",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select name from sys.tables\nwhere schema_name(schema_id) = 'SalesLT'\n",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "AzureSqlSalesLT_01",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "iterateThrough",
+				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "GetTablename",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetTablename').output.value",
+						"value": "@pipeline().parameters.tableNames",
 						"type": "Expression"
 					},
 					"activities": [
 						{
-							"name": "CopyDataFromSqlTOBLob",
+							"name": "Copy data1",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -60,7 +27,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "AzureSqlSource",
+									"type": "SqlServerSource",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -87,7 +54,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "AzureSqlSalesLT_02",
+									"referenceName": "SqlServerTable",
 									"type": "DatasetReference",
 									"parameters": {
 										"tablename": {
@@ -99,11 +66,11 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "OutputFilesDt",
+									"referenceName": "Adcopy",
 									"type": "DatasetReference",
 									"parameters": {
 										"filename": {
-											"value": "@concat(item().name,'.csv')",
+											"value": "@item().name",
 											"type": "Expression"
 										}
 									}
@@ -114,8 +81,13 @@
 				}
 			}
 		],
+		"parameters": {
+			"tableNames": {
+				"type": "array"
+			}
+		},
 		"annotations": [],
-		"lastPublishTime": "2021-04-05T06:48:31Z"
+		"lastPublishTime": "2021-04-05T09:37:50Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

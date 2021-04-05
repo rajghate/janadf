@@ -1,0 +1,17 @@
+{
+	"name": "FileServerLS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:\\Users\\RajGh\\Desktop\\LTI\\BI -lti\\JAN_PBI\\JAN_PBI\\",
+			"userId": "RajGH",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0MDRhMjRlZi1jMWViLTQ3YTMtOThkNS1jMDM0YWQ4ODA1YWQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "DemoOnPremIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
