@@ -1,0 +1,9 @@
+{
+	"name": "rajltiadf",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c0f262a6-c0e0-4677-aa08-52ce2146fe75",
+		"tenantId": "39ae0efc-da18-4b47-8836-08ee4b7e14d1"
+	}
+}
