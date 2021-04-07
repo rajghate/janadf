@@ -1,8 +1,8 @@
 {
-	"name": "AzureSqlTable1",
+	"name": "AzureSqlSalesLTDs",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlRajDb",
+			"referenceName": "AzureSqlSampleDb",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SalesLT",
-			"table": "Product"
+			"table": "Customer"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

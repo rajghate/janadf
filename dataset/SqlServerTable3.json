@@ -1,0 +1,32 @@
+{
+	"name": "SqlServerTable3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerADVWorks",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "s",
+				"Sname": "DESKTOP-EHGHUSN\\RAJGH",
+				"DbName": "AdventureWorks2012",
+				"Uname": "RajGh",
+				"Pw": "9969"
+			}
+		},
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Sales",
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

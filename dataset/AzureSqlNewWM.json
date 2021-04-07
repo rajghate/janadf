@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTable1",
+	"name": "AzureSqlNewWM",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlRajDb",
@@ -7,10 +7,21 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "TableName",
+				"type": "varchar"
+			},
+			{
+				"name": "WatermarkValue",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
 		"typeProperties": {
 			"schema": "SalesLT",
-			"table": "Product"
+			"table": "SalesOrderDetail"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

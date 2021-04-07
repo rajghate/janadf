@@ -1,0 +1,52 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTableSalesCust",
+						"type": "DatasetReference"
+					},
+					"name": "SalesLTCustomer"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTableSalesSOD",
+						"type": "DatasetReference"
+					},
+					"name": "SalesLTSOD"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTableSOH",
+						"type": "DatasetReference"
+					},
+					"name": "SalesSOH"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTableOP",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Aggregate1"
+				}
+			],
+			"script": "source(output(\n\t\tCustomerID as integer,\n\t\tSalesPerson as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select CustomerID,SalesPerson from [SalesLT].[Customer]',\n\tformat: 'query') ~> SalesLTCustomer\nsource(output(\n\t\tSalesOrderID as integer,\n\t\tLineTotal as decimal(38,6)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select SalesOrderID,LineTotal from [SalesLT].[SalesOrderDetail]',\n\tformat: 'query') ~> SalesLTSOD\nsource(output(\n\t\tCustomerID as integer,\n\t\tSalesOrderID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select CustomerID,SalesOrderID from [SalesLT].[SalesOrderHeader]',\n\tformat: 'query') ~> SalesSOH\nSalesLTSOD, SalesSOH join(SalesLTSOD@SalesOrderID == SalesSOH@SalesOrderID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nSalesLTCustomer, Join1 join(SalesLTCustomer@CustomerID == SalesSOH@CustomerID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join2\nJoin2 aggregate(groupBy(SalesPerson),\n\t{Total Line Total} = sum(LineTotal)) ~> Aggregate1\nAggregate1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1"
+		}
+	}
+}

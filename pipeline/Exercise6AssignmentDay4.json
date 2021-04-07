@@ -1,0 +1,63 @@
+{
+	"name": "Exercise6AssignmentDay4",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select c.FirstName+' '+c.LastName+' bought '+p.Name+' from '+\nc.SalesPerson  as ConcatString from \n((( [SalesLT].[Customer] as c inner join [SalesLT].[SalesOrderHeader] as \nh on c.CustomerID=h.CustomerID) INNER join [SalesLT].[SalesOrderDetail] \nas d on h.SalesOrderID=d.SalesOrderID) inner join  [SalesLT].[Product] as p \non p.ProductID = d.ProductID)",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DelimitedText3",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-04-07T05:19:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

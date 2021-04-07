@@ -1,9 +1,29 @@
 {
 	"name": "rajltiadf",
+	"properties": {
+		"globalParameters": {
+			"ServerName": {
+				"type": "string",
+				"value": "DESKTOP-EHGHUSN\\RAJGH"
+			},
+			"DbName": {
+				"type": "string",
+				"value": "AdventureWorks2012"
+			},
+			"UserName": {
+				"type": "string",
+				"value": "RajGh"
+			},
+			"Password": {
+				"type": "string",
+				"value": "9969"
+			}
+		}
+	},
 	"location": "southeastasia",
 	"identity": {
 		"type": "SystemAssigned",
-		"principalId": "05246699-2931-44f3-a769-88f9f57dae22",
+		"principalId": "02f2c1f2-63f4-4850-9656-d456d6f21ee3",
 		"tenantId": "39ae0efc-da18-4b47-8836-08ee4b7e14d1"
 	}
 }
